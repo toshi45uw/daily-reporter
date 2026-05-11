@@ -31,6 +31,7 @@ export function ActivityCardItem({ card }: { card: ActivityCard }) {
       }`}
     >
       <div className="flex items-start gap-3">
+        {/* Checkbox */}
         <button
           onClick={() => toggleIncluded(card.id)}
           className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
@@ -46,6 +47,7 @@ export function ActivityCardItem({ card }: { card: ActivityCard }) {
         </button>
 
         <div className="flex-1 min-w-0">
+          {/* Header */}
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${src.color}`}>
               {src.label}
@@ -53,6 +55,11 @@ export function ActivityCardItem({ card }: { card: ActivityCard }) {
             {card.confidence === 'inferred' && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-600 font-medium">
                 推測
+              </span>
+            )}
+            {card.confidence === 'observed' && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 font-medium">
+                カレンダー
               </span>
             )}
             {startTime && (
@@ -74,6 +81,7 @@ export function ActivityCardItem({ card }: { card: ActivityCard }) {
             </p>
           )}
 
+          {/* Memo */}
           {card.isIncluded && (
             <textarea
               value={card.memo}
@@ -85,17 +93,34 @@ export function ActivityCardItem({ card }: { card: ActivityCard }) {
           )}
         </div>
 
-        {card.source === 'manual' && (
-          <button
-            onClick={() => removeCard(card.id)}
-            className="flex-shrink-0 text-gray-400 hover:text-red-500 transition-colors"
-            aria-label="削除"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
+        {/* Action buttons */}
+        <div className="flex flex-col gap-1 flex-shrink-0">
+          {card.url && (
+            <a
+              href={card.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-blue-500 transition-colors"
+              aria-label="Googleカレンダーで開く"
+              title="Googleカレンダーで開く"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          )}
+          {card.source === 'manual' && (
+            <button
+              onClick={() => removeCard(card.id)}
+              className="text-gray-400 hover:text-red-500 transition-colors"
+              aria-label="削除"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
